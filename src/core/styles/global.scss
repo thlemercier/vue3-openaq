@@ -1,0 +1,96 @@
+// @import './border_module.scss';
+
+// @import './layout_module.scss';
+@import './_variables.module.scss';
+@import './_spacing.module.scss';
+@import './_layout.module.scss';
+// @import './margin_module.scss';
+// @import './padding_module.scss';
+// @import './text_module.scss';
+
+/*************************
+ * RESET CSS
+*************************/
+html,
+body {
+  box-sizing: border-box;
+  -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: rgba($primary-dark, 0);
+  height: 100%;
+  width: 100%;
+  font-size: $f_size;
+  line-height: $f_line_height;
+  text-align: left;
+  color: rgb(32, 30, 30);
+  font-family: Verdana, sans-serif;
+  padding: 0;
+  margin: 0;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+::-moz-focus-inner {
+  border: 0;
+}
+
+:focus {
+  outline: none;
+}
+
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ol,
+ul {
+  font-weight: normal;
+}
+
+ol,
+ul {
+  list-style: none;
+
+  @extend .p_0;
+  @extend .m_0;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+svg {
+  // Workaround for the SVG overflow bug in IE10/11 is still required.
+  // See https://github.com/twbs/bootstrap/issues/26878
+  overflow: hidden;
+  vertical-align: middle;
+}
+
+textarea {
+  overflow: auto; // Remove the default vertical scrollbar in IE.
+  // Textareas should really only resize vertically so they don't break their (horizontal) containers.
+  resize: vertical;
+}
+
+button {
+  @extend .p_3_6;
+
+  background: none;
+  font-size: 1rem;
+  font-family: Verdana, sans-serif;
+  border-radius: $s;
+  border: $xs solid transparent;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  display: flex;
+  align-items: center;
+  position: relative;
+}

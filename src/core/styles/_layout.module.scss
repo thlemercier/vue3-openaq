@@ -1,0 +1,13 @@
+.flexColumn {
+  display: flex;
+  flex-direction: column;
+}
+
+.flexRow {
+  display: flex;
+}
+
+.sticky-bottom {
+  position: sticky;
+  bottom: 0;
+}

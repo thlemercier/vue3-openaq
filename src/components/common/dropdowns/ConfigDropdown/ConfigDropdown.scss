@@ -1,0 +1,29 @@
+.config-dropdown_button {
+  border-color: #e8e8e8;
+
+  &:focus {
+    border-color: $primary-blue-op-1;
+  }
+
+  &:hover:not(:focus) {
+    border-color: $primary-blue-op-2;
+  }
+
+  .config-dropdown_button_label {
+    padding: 0 0.5rem 0 0;
+    border-right: 1px solid #e8e8e8;
+
+    svg {
+      display: inline-block;
+      width: 1.45rem;
+      height: 1.45rem;
+      stroke-width: 0;
+      stroke: rgb(66, 129, 164);
+      fill: rgb(66, 129, 164);
+    }
+  }
+
+  .config-dropdown_button_value {
+    padding: 0 0 0 0.5rem;
+  }
+}

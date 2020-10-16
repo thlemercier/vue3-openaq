@@ -1,0 +1,63 @@
+////////////////////
+//      COLORS
+////////////////////
+
+$primary-dark: rgb(38, 50, 56);
+$darker-dark: rgb(33, 33, 33);
+$lighter-dark: rgb(59, 70, 75);
+
+$primary-blue: rgb(66, 129, 164);
+$darker-blue:rgb(46, 90, 114);
+$lighter-blue: rgb(122, 166, 191);
+
+//////////
+
+$white: #fff;
+$primary: #fff;
+$secondary: #000;
+$tertiary: #aaa;
+
+$shade_black_lighter: rgba(0, 0, 0, 0.12);
+$shade_black: rgba(0, 0, 0, 0.24);
+
+$primary-dark: #263238;
+$secondary-dark: #212121;
+
+$primary-purple: #9c27b0;
+$secondary-purple: #4a148c;
+$tertiary-purple: #ce93d8;
+
+$primary-blue: rgb(66, 129, 164);
+$primary-blue-op-1: rgba(66, 129, 164, 0.6);
+$primary-blue-op-2: rgba(66, 129, 164, 0.2);
+$secondary-blue: #0d47a1;
+$tertiary-blue: #90caf9;
+
+$primary-danger: #f44336;
+$secondary-danger: #b71c1c;
+$tertiary-danger: #ef9a9a;
+
+$primary-success: #4caf50;
+$secondary-success: #1b5e20;
+$tertiary-success: #a5d6a7;
+
+$primary-warning: #ffc107;
+$secondary-warning: #ff6f00;
+$tertiary-warning: #ffe082;
+
+$primary-white: #fff;
+$secondary-white: #f5f5f5;
+
+////////////////////
+//      SIZES
+////////////////////
+$zero: 0;
+$xxs: 1px;
+$xs: 3px;
+$s: 5px;
+$m: 8px;
+$l: 12px;
+$xl: 24px;
+$xxl: 32px;
+$f_size: 14px;
+$f_line_height: calc(14px * 1.5);
