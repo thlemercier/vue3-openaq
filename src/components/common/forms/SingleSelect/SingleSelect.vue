@@ -1,5 +1,5 @@
 <script lang="ts">
-import { computed, defineComponent, SetupContext, ref, onMounted } from 'vue'
+import { computed, defineComponent, SetupContext, ref, onMounted, onUpdated } from 'vue'
 import { RadioButton } from '@/components/common'
 import {
   InputProps,
@@ -8,17 +8,27 @@ import {
   EmittedEvents,
 } from './SingleSelect.props'
 
+/**
+ * A Single Select Component, with a list of Radio Buttons.
+ * -------------------------
+ * Usage: (
+ *  <SingleSelect />
+ * )
+ */
 export default defineComponent({
   name: 'SingleSelect',
   props: inputProps,
+  emits: [EmittedEvents.change],
   setup (props: Readonly<InputProps>, context: SetupContext): TemplateProps {
-    const selectedValue = ref<string | undefined>(undefined)
+    // Local Selected Value
+    const selectedValue = ref<string>('')
 
     const setSelectedValue = (value: string) => {
       selectedValue.value = value
 
+      // If applyOnChange we emit the new value to the parent straight away
       if (props.applyOnChange) {
-        context.emit('input', value)
+        context.emit('change', value)
       }
     }
 
@@ -37,18 +47,17 @@ export default defineComponent({
 })
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scopped src="./SingleSelect.scss"></style>
 <template>
   <div class="single-select_container flexColumn p_5 p_b_0">
       <div class="single-select_search"></div>
       <ul class="single-select_options flexColumn">
-        <li v-for="option in options" :key="getValue(option)" class="single-select_options_option">
+        <li v-for="(option, index) in options" :key="getValue(option)" class="single-select_options_option">
           <RadioButton
             :name="name"
-            :id="getValue(option)"
-            :inputValue="getValue(option)"
-            :label="getLabel(option)"
+            :id="getValue(option, index)"
+            :inputValue="getValue(option, index)"
+            :label="getLabel(option, index)"
             :disabled="isDisabled && isDisabled(option)"
             :value="selectedValue"
             @change="setSelectedValue"
