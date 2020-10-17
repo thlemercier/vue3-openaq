@@ -50,6 +50,9 @@ export default defineComponent({
 <template>
   <div
     :tabIndex="disabled ? -1 : 0"
+    role="radio"
+    :aria-label="label"
+    :aria-checked="inputValue === model"
     class="radio-button"
     :class="{ 'disabled': disabled }"
     @click="onChange"
