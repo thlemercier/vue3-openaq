@@ -1,31 +1,45 @@
-.radio-button {
-  display: grid;
+.radio-button { // Main container
+  display: inline-flex;
   grid-template-columns: min-content auto;
-  grid-gap: 0.5em;
+  grid-gap: $xs;
   cursor: pointer;
   height: 25px;
   align-items: center;
 
-  .radio-button_label {
+  .radio-button_inner-input { // Input container
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
     position: relative;
-    color: $lighter-dark;
 
-    label {
-      display: block;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      overflow: hidden;
-      max-width: 25ch;
-      cursor: pointer;
+    &.checked {
+      &::after {
+        // When the input is checked we display a small blue inner additional circle
+        background: $primary-blue;
+        box-shadow: 0 0 1px 2px #fff inset;
+      }
     }
 
-    &::before {
+    &::before { // The grey circle used for the focus
+      content: '';
+      display: block;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: rgba($lighter-dark, 0.12);
+      transform: scale3d(0, 0, 1);
+      transition: transform 0.22s cubic-bezier(0, 0, 0.2, 1) 0ms;
+      opacity: 1;
+      position: absolute;
+    }
+
+    &::after { // The blue circle used for the radio
       content: '';
       display: block;
       width: 15px;
       height: 15px;
-      left: -25px;
-      top: 3px;
+      left: calc(50% - 7.5px);
+      top: calc(50% - 7.5px);
       border-radius: 100%;
       border: 2px solid $primary-blue;
       opacity: 1;
@@ -34,32 +48,51 @@
     }
   }
 
-  &:hover {
-    .radio-button_label {
-      color: $darker-dark;
+  .radio-button_label { // Label Container
+    position: relative;
+    color: $lighter-dark;
 
-      &::before {
-        border-color: $darker-blue;
-      }
+    label { // The label
+      display: block;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      max-width: 25ch;
+      cursor: pointer;
     }
   }
 
-  input[type=radio] {
+  .radio-button_input { // The hidden <input radio
     width: 20px;
     height: 20px;
-    opacity: 0;
+    display: none;
     cursor: pointer;
     pointer-events: none;
+  }
 
-    &:checked {
-      + .radio-button_label {
-        color: $primary-dark;
+  &.disabled {
+    .radio-button_label {
+      // When disabled we color the label with a light grey
+      color: lighten($lighter-dark, 35%);
+    }
 
-        &::before {
-          background: $primary-blue;
-          box-shadow: 0 0 1px 2px #fff inset;
-        }
-      }
+    .radio-button_inner-input::after {
+      // When disabled we replace the blue border with a light grey border
+      border-color: lighten($lighter-dark, 35%);
+    }
+  }
+
+  &:not(.disabled):focus {
+    .radio-button_inner-input::before {
+      // When focusing an input that is not disabled, we scale up the grey circle
+      transform: scale3d(1, 1, 1);
+    }
+  }
+
+  &:hover:not(.disabled) {
+    .radio-button_label {
+      // When hovering the container we color the label with a darker color
+      color: $darker-dark;
     }
   }
 }

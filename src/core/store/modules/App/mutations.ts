@@ -8,6 +8,9 @@ const mutations: MutationTree<AppModuleState> & AppModuleMutations = {
   [AppModuleMutationTypes.SET_MY_INTERFACES] (state, payload) {
     state.countries = payload?.countries || []
   },
+  [AppModuleMutationTypes.SET_COUNTRY] (state, payload) {
+    state.country = payload?.country || undefined
+  },
 }
 
 export default mutations

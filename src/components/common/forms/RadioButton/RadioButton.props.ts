@@ -3,51 +3,43 @@ import { WritableComputedRef } from 'vue'
 export interface InputProps {
   name: string
   label: string
-  modelValue: string
   value: string
+  inputValue: string
   id: string
+  disabled?: boolean
 }
 
 export const inputProps = {
   name: {
     type: String,
     required: true,
-    default: 'name',
   },
   label: {
     type: String,
     required: true,
-    default: 'label',
-  },
-  modelValue: {
-    type: String,
-    required: true,
-    default: 'modelValue',
   },
   value: {
     type: String,
     required: true,
-    default: 'value',
+  },
+  inputValue: {
+    type: String,
+    required: true,
   },
   id: {
     type: String,
     required: true,
-    default: 'id',
   },
-  // on: {
-  //   type: String as PropType<OnEventOptions>,  >> Enum
-  //   default: EventOption.HOVER,
-  // },
-}
+  disabled: {
+    type: Boolean,
+  },
+} as const
 
 export interface TemplateProps {
   model: WritableComputedRef<string>
-  name: string
-  label: string
-  value: string
-  id: string
+  onChange: (event: { target: HTMLInputElement }) => void
 }
 
 export const EmittedEvents = {
-  OnChange: 'onChance',
+  change: 'change',
 }

@@ -1,32 +1,45 @@
 <script lang="ts">
-import { ConfigDropdown, RadioButton } from '@/components/common'
+import { ConfigDropdown, SingleSelect } from '@/components/common'
+import { getOr, hasValue } from '@/core/services/helpers'
 import { AppStore } from '@/core/store'
+import { AppModuleActionTypes } from '@/core/store/typings/app.module.interface'
 import { Country } from '@/core/typings'
 import { computed, defineComponent, ref } from 'vue'
 import { useStore } from 'vuex'
 
 export default defineComponent({
   name: 'CountryDropdown',
-  components: { ConfigDropdown, RadioButton },
+  components: { ConfigDropdown, SingleSelect },
   setup () {
     const appStore = useStore<AppStore>()
     const countries = computed<Country[]>(() => appStore.state.app.countries)
+    const country = computed<Country | undefined>({
+      get: () => appStore.state.app.country,
+      set: (value) => {
+        appStore.dispatch(`app/${AppModuleActionTypes.SET_COUNTRY}`, value)
+      },
+    })
+
+    const setCountry = (value: string) => {
+      const selectedCountry = countries.value.find(({ name }) => name === value)
+
+      country.value = selectedCountry
+    }
+
     // const market = computed<Market | null>(() => appStore.state.session.currentMarket)
     const isOpen = ref(false)
     const setIsOpen = () => {
       isOpen.value = !isOpen.value
     }
 
-    const selectedCountry = ref('Australia')
-
-    const setCountry = (event: { target: HTMLInputElement }) => console.log(event.target.value)
-
     return {
       countries,
       isOpen,
       setIsOpen,
+      getOr,
+      hasValue,
+      country,
       setCountry,
-      selectedCountry,
     }
   },
 })
@@ -49,9 +62,19 @@ export default defineComponent({
       </svg>
     </template>
     <template #value>
-      {{ selectedCountry }}
+      {{ getOr(country?.name, ' No Country') }}
     </template>
-    <div class="single-select_container flexColumn p_5 p_b_0">
+    <SingleSelect
+      :value="country"
+      @input="setCountry"
+      name="country"
+      :options="countries"
+      :getValue="(country) => country.name"
+      :getLabel="(country) => `${getOr(country.name, 'n/a')} (${country.code})`"
+      :isDisabled="(country) => !hasValue(country.name)"
+      :applyOnChange="true"
+    />
+    <!-- <div class="single-select_container flexColumn p_5 p_b_0">
       <div class="single-select_search"></div>
       <ul class="single-select_options flexColumn">
         <li v-for="country in countries" :key="country.name" class="single-select_options_option">
@@ -68,6 +91,6 @@ export default defineComponent({
         <button>Cancel</button>
         <button>Apply</button>
       </div>
-    </div>
+    </div> -->
   </ConfigDropdown>
 </template>

@@ -20,6 +20,7 @@ const actions: ActionTree<AppModuleState, AppStore> & AppModuleActions = {
       Promise.all(requests)
         .then(([myInterfaces]) => {
           commit(AppModuleMutationTypes.SET_MY_INTERFACES, { countries: [...myInterfaces] })
+          commit(AppModuleMutationTypes.SET_COUNTRY, { country: myInterfaces[0] })
           resolve()
         })
         .catch((error) => {
@@ -27,6 +28,8 @@ const actions: ActionTree<AppModuleState, AppStore> & AppModuleActions = {
           reject(error)
         })
     }),
+  [AppModuleActionTypes.SET_COUNTRY]: ({ commit }, payload) => commit(AppModuleMutationTypes.SET_COUNTRY, { country: payload }),
+
 }
 
 export default actions
