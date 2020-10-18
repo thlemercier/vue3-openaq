@@ -31,6 +31,7 @@ module.exports = {
         search: '$$version_number$$',
         replace: version,
       }))
+    config.output.chunkFilename('js/[id].[chunkhash:8].js')
   },
   devServer: {
     hot: true,

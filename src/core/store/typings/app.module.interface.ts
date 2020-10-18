@@ -10,12 +10,12 @@ export interface AppModuleState {
 
 // Mutations
 export enum AppModuleMutationTypes {
-  SET_MY_INTERFACES = 'SET_MY_INTERFACES',
+  SET_COUNTRIES = 'SET_COUNTRIES',
   SET_COUNTRY = 'SET_COUNTRY',
 }
 
 export type AppModuleMutations<S = AppModuleState> = {
-  [AppModuleMutationTypes.SET_MY_INTERFACES](state: S, payload: { countries: Country[] }): void
+  [AppModuleMutationTypes.SET_COUNTRIES](state: S, payload: { countries: Country[] }): void
   [AppModuleMutationTypes.SET_COUNTRY](state: S, payload: { country: Country }): void
 }
 

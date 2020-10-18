@@ -18,9 +18,9 @@ const actions: ActionTree<AppModuleState, AppStore> & AppModuleActions = {
       ]
 
       Promise.all(requests)
-        .then(([myInterfaces]) => {
-          commit(AppModuleMutationTypes.SET_MY_INTERFACES, { countries: [...myInterfaces] })
-          commit(AppModuleMutationTypes.SET_COUNTRY, { country: myInterfaces[15] })
+        .then(([countries]) => {
+          commit(AppModuleMutationTypes.SET_COUNTRIES, { countries })
+          commit(AppModuleMutationTypes.SET_COUNTRY, { country: countries[15] })
           resolve()
         })
         .catch((error) => {

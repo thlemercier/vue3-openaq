@@ -5,7 +5,7 @@ import { MutationTree } from 'vuex'
 import { AppModuleMutations, AppModuleMutationTypes, AppModuleState } from '../../typings/app.module.interface'
 
 const mutations: MutationTree<AppModuleState> & AppModuleMutations = {
-  [AppModuleMutationTypes.SET_MY_INTERFACES] (state, payload) {
+  [AppModuleMutationTypes.SET_COUNTRIES] (state, payload) {
     state.countries = payload?.countries || []
   },
   [AppModuleMutationTypes.SET_COUNTRY] (state, payload) {

@@ -1,20 +1,35 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
-import { Home } from '../../views/Home'
+import RouterView2 from './RouterView2.vue'
+import { supportedLocales, SupportedLocale, i18nMiddleware } from '../services/i18n'
+import { pages } from './pages'
+
+const getLocaleRegex = () => {
+  const regex = supportedLocales
+    .map(({ base }) => base)
+    .join('|')
+
+  return `(${regex})`
+}
 
 const routes: RouteRecordRaw[] = [
   {
-    path: '/',
-    name: 'Home',
-    component: Home,
+    path: `/:locale${getLocaleRegex()}`,
+    component: RouterView2,
+    beforeEnter (to, from, next) {
+      console.log('beforeEnter MF')
+      i18nMiddleware(to.params.locale as string)
+      next()
+    },
+    children: pages,
   },
-  // {
-  //   path: '/about',
-  //   name: 'About',
-  //   // route level code-splitting
-  //   // this generates a separate chunk (about.[hash].js) for this route
-  //   // which is lazy-loaded when the route is visited.
-  //   component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  // }
+  {
+    path: '',
+    redirect: '/en',
+  },
+  {
+    path: '/:catchAll(.*)*',
+    redirect: '/en',
+  },
 ]
 
 const router = createRouter({

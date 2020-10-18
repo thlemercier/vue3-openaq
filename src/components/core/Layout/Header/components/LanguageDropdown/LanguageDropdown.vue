@@ -2,21 +2,12 @@
 import { ConfigDropdown, SingleSelect } from '@/components/common'
 import { http } from '@/core/services/fetch'
 import { getOr } from '@/core/services/helpers'
+import { i18nMiddleware, supportedLocales } from '@/core/services/i18n'
 // import { AppStore } from '@/core/store'
 import { computed, defineAsyncComponent, defineComponent, ref } from 'vue'
 import { LocaleMessageDictionary, useI18n, VueMessageType } from 'vue-i18n'
+import { useRoute, useRouter } from 'vue-router'
 // import { useStore } from 'vuex'
-
-const languageOptions = [
-  {
-    code: 'FR',
-    labelKey: 'lang.FR',
-  },
-  {
-    code: 'EN',
-    labelKey: 'lang.EN',
-  },
-]
 
 export default defineComponent({
   name: 'LanguageDropdown',
@@ -25,34 +16,33 @@ export default defineComponent({
     // const appStore = useStore<AppStore>()
 
     const i18n = useI18n()
+    const route = useRoute()
+    const router = useRouter()
 
-    const ll = await http.get('/i18n/EN', undefined, true)
+    const selectedLanguage = computed(() => {
+      const lang = supportedLocales.find(({ code }) => code === i18n.locale.value)
 
-    i18n.locale.value = 'EN'
-    i18n.setLocaleMessage('EN', ll as LocaleMessageDictionary<VueMessageType>)
-
-    const selectedLanguage = ref(languageOptions[1])
-
-    const lang = computed(() => i18n.locale.value)
+      return lang || { labelKey: 'no-lang', base: 'en' }
+    })
 
     const setLanguage = async (value: string) => {
-      const language = languageOptions.find(({ code }) => code === value)
+      const language = supportedLocales.find(({ code }) => code === value)
 
       if (language) {
-        const ll2 = await http.get(`/i18n/${language.code}`, undefined, true)
+        console.log('route', route.fullPath)
 
-        selectedLanguage.value = language
-        i18n.locale.value = language.code
-        i18n.setLocaleMessage(language.code, ll2 as LocaleMessageDictionary<VueMessageType>)
+        const neww = route.fullPath.replace(`/${selectedLanguage.value.base}/`, `/${language.base}/`)
+
+        router.push({ path: neww })
+          .then(() => i18nMiddleware(language.base))
       }
     }
 
     return {
       setLanguage,
       selectedLanguage,
-      languageOptions,
+      supportedLocales,
       getOr,
-      lang,
     }
   },
 })
@@ -80,7 +70,7 @@ export default defineComponent({
       :value="selectedLanguage"
       @change="setLanguage"
       name="country"
-      :options="languageOptions"
+      :options="supportedLocales"
       :getValue="(language, index) => getOr(language.code, `val-${index}`)"
       :getLabel="(language) => `${getOr($t(language.labelKey), 'n/a')} (${getOr(language.code, 'n/a')})`"
       :applyOnChange="true"
