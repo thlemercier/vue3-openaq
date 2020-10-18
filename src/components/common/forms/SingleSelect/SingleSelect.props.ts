@@ -12,7 +12,7 @@ export interface InputProps {
 
 export const inputProps = {
   value: {
-    type: String,
+    type: [String, Object],
     required: true,
     default: 'modelValue',
   },

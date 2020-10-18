@@ -8,7 +8,7 @@ import { Country } from '@/core/typings'
 import { computed, defineComponent } from 'vue'
 import { useStore } from 'vuex'
 
-const getCountryName = (country: Country | undefined) => getOr(country?.name, ' No Country')
+const getCountryCode = (country: Country | undefined) => getOr(country?.code, ' No Code')
 
 export default defineComponent({
   name: 'CountryDropdown',
@@ -30,7 +30,7 @@ export default defineComponent({
     }
 
     const importedFunctions = {
-      getCountryName,
+      getCountryCode,
       getOr,
       hasValue,
     }
@@ -61,7 +61,7 @@ export default defineComponent({
       </svg>
     </template>
     <template #value>
-      {{ getCountryName(country) }}
+      {{ $t(`country.${getCountryCode(country)}`) }}
     </template>
     <SingleSelect
       :value="country"
@@ -69,7 +69,7 @@ export default defineComponent({
       name="country"
       :options="countries"
       :getValue="(country, index) => getOr(country.name, `val-${index}`)"
-      :getLabel="(country) => `${getOr(country.name, 'n/a')} (${getOr(country.code, 'n/a')})`"
+      :getLabel="(country) => `${getOr(country.name && $t(`country.${country.code}`), 'n/a')} (${getOr(country.code, 'n/a')})`"
       :isDisabled="(country) => !hasValue(country.name)"
       :applyOnChange="true"
     />

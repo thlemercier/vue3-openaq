@@ -1,5 +1,5 @@
 <script lang="ts">
-import { computed, defineComponent, SetupContext, ref, onMounted, onUpdated } from 'vue'
+import { defineComponent, SetupContext, ref, onMounted } from 'vue'
 import { RadioButton } from '@/components/common'
 import {
   InputProps,
@@ -34,6 +34,8 @@ export default defineComponent({
 
     onMounted(() => {
       selectedValue.value = props.getValue(props.value)
+      console.log('selectedValue', selectedValue.value)
+      console.log('options', props.options)
     })
 
     return {
