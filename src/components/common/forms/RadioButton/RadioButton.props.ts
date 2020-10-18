@@ -1,4 +1,4 @@
-import { WritableComputedRef } from 'vue'
+import { Ref, WritableComputedRef } from 'vue'
 
 export interface InputProps {
   name: string
@@ -38,6 +38,8 @@ export const inputProps = {
 export interface TemplateProps {
   model: WritableComputedRef<string>
   onChange: (event: { target: HTMLInputElement }) => void
+  radioRef: Ref<HTMLElement | undefined>
+  onFocus: () => void
 }
 
 export const EmittedEvents = {

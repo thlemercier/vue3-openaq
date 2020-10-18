@@ -73,7 +73,7 @@
   &.disabled {
     .radio-button_label {
       // When disabled we color the label with a light grey
-      color: lighten($lighter-dark, 35%);
+      color: lighten($lighter-dark, 19%);
     }
 
     .radio-button_inner-input::after {

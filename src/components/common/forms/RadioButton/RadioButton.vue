@@ -1,5 +1,5 @@
 <script lang="ts">
-import { computed, defineComponent, SetupContext } from 'vue'
+import { computed, defineComponent, onMounted, onUpdated, ref, SetupContext } from 'vue'
 import {
   InputProps,
   inputProps,
@@ -27,6 +27,8 @@ export default defineComponent({
   props: inputProps,
   emits: [EmittedEvents.change],
   setup (props: Readonly<InputProps>, context: SetupContext): TemplateProps {
+    const radioRef = ref<HTMLElement | undefined>(undefined)
+
     const model = computed({
       get: () => props.value,
       set: (value) => context.emit('change', value),
@@ -38,9 +40,23 @@ export default defineComponent({
       }
     }
 
+    const onFocus = () => {
+      if (radioRef.value) {
+        radioRef.value.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' })
+      }
+    }
+
+    onUpdated(() => {
+      if (radioRef.value && props.value === props.inputValue) {
+        radioRef.value.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' })
+      }
+    })
+
     return {
       model,
       onChange,
+      radioRef,
+      onFocus,
     }
   },
 })
@@ -49,14 +65,17 @@ export default defineComponent({
 <style lang="scss" scopped src="./RadioButton.scss"></style>
 <template>
   <div
+    ref="radioRef"
     :tabIndex="disabled ? -1 : 0"
     role="radio"
     :aria-label="label"
     :aria-checked="inputValue === model"
+    :aria-disabled="disabled"
     class="radio-button"
     :class="{ 'disabled': disabled }"
     @click="onChange"
     @keyup.enter="onChange"
+    @focus="onFocus"
   >
     <input
       class="radio-button_input"

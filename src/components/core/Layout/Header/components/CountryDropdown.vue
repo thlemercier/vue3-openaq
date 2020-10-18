@@ -45,7 +45,6 @@ export default defineComponent({
 })
 </script>
 
-<style lang="scss" scopped src="./SingleSelect.scss"></style>
 <template>
   <ConfigDropdown aria-label="Language">
     <template #label>
