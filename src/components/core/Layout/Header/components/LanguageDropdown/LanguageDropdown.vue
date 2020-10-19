@@ -1,20 +1,15 @@
 <script lang="ts">
 import { ConfigDropdown, SingleSelect } from '@/components/common'
-import { http } from '@/core/services/fetch'
 import { getOr } from '@/core/services/helpers'
-import { i18nMiddleware, supportedLocales } from '@/core/services/i18n'
-// import { AppStore } from '@/core/store'
-import { computed, defineAsyncComponent, defineComponent, ref } from 'vue'
-import { LocaleMessageDictionary, useI18n, VueMessageType } from 'vue-i18n'
+import { changeLanguage, supportedLocales } from '@/core/services/i18n'
+import { computed, defineComponent } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
-// import { useStore } from 'vuex'
 
 export default defineComponent({
   name: 'LanguageDropdown',
   components: { ConfigDropdown, SingleSelect },
   async setup () {
-    // const appStore = useStore<AppStore>()
-
     const i18n = useI18n()
     const route = useRoute()
     const router = useRouter()
@@ -29,12 +24,7 @@ export default defineComponent({
       const language = supportedLocales.find(({ code }) => code === value)
 
       if (language) {
-        console.log('route', route.fullPath)
-
-        const neww = route.fullPath.replace(`/${selectedLanguage.value.base}/`, `/${language.base}/`)
-
-        router.push({ path: neww })
-          .then(() => i18nMiddleware(language.base))
+        changeLanguage(language, route, router)
       }
     }
 

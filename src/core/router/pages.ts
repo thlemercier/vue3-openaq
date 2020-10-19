@@ -1,4 +1,5 @@
 import { RouteRecordRaw } from 'vue-router'
+import { i18nInstance } from '../services/i18n'
 
 export const pages: RouteRecordRaw[] = [
   {
@@ -8,6 +9,10 @@ export const pages: RouteRecordRaw[] = [
   },
   {
     path: '',
-    redirect: '/home',
+    redirect: `/${i18nInstance.global.locale.value}/home`,
+  },
+  {
+    path: '/:catchAll(.*)*',
+    redirect: `/${i18nInstance.global.locale.value}/home`,
   },
 ]

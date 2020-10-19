@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import RouterView2 from './RouterView2.vue'
-import { supportedLocales, SupportedLocale, i18nMiddleware } from '../services/i18n'
+import { supportedLocales, i18nMiddleware, i18nInstance } from '../services/i18n'
 import { pages } from './pages'
 
 const getLocaleRegex = () => {
@@ -15,20 +15,16 @@ const routes: RouteRecordRaw[] = [
   {
     path: `/:locale${getLocaleRegex()}`,
     component: RouterView2,
-    beforeEnter (to, from, next) {
-      console.log('beforeEnter MF')
-      i18nMiddleware(to.params.locale as string)
-      next()
-    },
+    beforeEnter: i18nMiddleware,
     children: pages,
   },
   {
     path: '',
-    redirect: '/en',
+    redirect: `/${i18nInstance.global.locale.value}/home`,
   },
   {
     path: '/:catchAll(.*)*',
-    redirect: '/en',
+    redirect: `/${i18nInstance.global.locale.value}/home`,
   },
 ]
 

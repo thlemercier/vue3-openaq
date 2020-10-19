@@ -193,7 +193,6 @@ const detectBottomOverflow = (childY: number, childHeight: number, parentY: numb
 )
 
 const handleOverflow = (contentEl: HTMLElement, nested: boolean, nestedXCoord: number, nestedYCoord: number) => {
-  console.log('handle overflow')
   const { x: clRectX, y: clRectY } = contentEl.getBoundingClientRect()
   let xCoord = nested ? nestedXCoord : clRectX
   let yCoord = nested ? nestedYCoord : clRectY
@@ -202,18 +201,14 @@ const handleOverflow = (contentEl: HTMLElement, nested: boolean, nestedXCoord: n
   const [parentX, parentY, parentWidth, parentHeight] = getClosestParentWithOverflowClientRect(contentEl)
 
   if (detectLeftOverflow(clRectX, parentX)) {
-    console.log('detect left')
     if (nested) {
-      console.log('nested')
       xCoord = xCoord - (clRectX - parentX)
     } else {
       xCoord = parentX
     }
     redraw = true
   } else if (detectRightOverlow(clRectX, getWidth(contentEl), parentX, parentWidth)) {
-    console.log('detect right')
     if (nested) {
-      console.log('nested')
       xCoord = xCoord - (clRectX + getWidth(contentEl) - (parentX + parentWidth))
     } else {
       xCoord = (parentX + parentWidth) - getWidth(contentEl)
@@ -222,18 +217,14 @@ const handleOverflow = (contentEl: HTMLElement, nested: boolean, nestedXCoord: n
   }
 
   if (detectTopOverlow(clRectY, parentY)) {
-    console.log('detect top')
     if (nested) {
-      console.log('nested')
       yCoord = yCoord - (clRectY - parentY)
     } else {
       yCoord = parentY
     }
     redraw = true
   } else if (detectBottomOverflow(clRectY, getHeight(contentEl), parentY, parentHeight)) {
-    console.log('detect bottom')
     if (nested) {
-      console.log('nested')
       yCoord = yCoord - (clRectY + getHeight(contentEl) - (parentY + parentHeight))
     } else {
       yCoord = (parentY + parentHeight) - getHeight(contentEl)
