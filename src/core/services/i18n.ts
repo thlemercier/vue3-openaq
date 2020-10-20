@@ -26,17 +26,17 @@ export const i18nMiddleware = async (to: RouteLocationNormalized, from: RouteLoc
   const locale: SupportedLocale | undefined = supportedLocales.find(({ base }) => base === to?.params.locale)
 
   if (locale) {
-    const langProps = await http.get(`/i18n/${locale.code}`, undefined, true)
+    const langProps = await http.get<LocaleMessageDictionary<VueMessageType>>(`/i18n/${locale.code}`, undefined, true)
 
     i18nInstance.global.locale.value = locale.code
-    i18nInstance.global.setLocaleMessage(locale.code, langProps as LocaleMessageDictionary<VueMessageType>)
+    i18nInstance.global.setLocaleMessage(locale.code, langProps)
     next()
   }
 }
 
 export const changeLanguage = async (newLocale: SupportedLocale, route: RouteLocationNormalizedLoaded, router: Router) => {
   if (newLocale) {
-    const langProps = await http.get(`/i18n/${newLocale.code}`, undefined, true)
+    const langProps = await http.get<LocaleMessageDictionary<VueMessageType>>(`/i18n/${newLocale.code}`, undefined, true)
 
     i18nInstance.global.locale.value = newLocale.code
     i18nInstance.global.setLocaleMessage(newLocale.code, langProps as LocaleMessageDictionary<VueMessageType>)

@@ -1,13 +1,9 @@
-interface HttpResponse<T> extends Response {
-  parsedBody?: T
-}
 /**
  * Wrapper for Http Request.
  * Uses fetch API.
  */
 class Fetch {
   headers: Record<string, string> = {
-    market: 'marketId',
     'data-version': 'dataVersion[sessionUser.currentMarket]',
     'Content-Type': 'application/json',
   }
@@ -27,6 +23,13 @@ class Fetch {
       this.useMock = Boolean(process.env.VUE_APP_MOCK_ENABLED)
     }
     console.log('process.env.VUE_APP_MOCK_ENABLED', this.useMock)
+  }
+
+  setHeaders (headers: Record<string, string>) {
+    this.headers = {
+      ...this.headers,
+      ...headers,
+    }
   }
 
   /**
@@ -74,6 +77,7 @@ class Fetch {
    * @param {String} param.method The Request method
    * @param {Function} param.errorCallback Callback to execute if there is an error
    * @param {Function} param.successCallback Callback to execute if the request is successful
+   * @param {Boolean} params.forceMock Force the usage of mock data
    */
   async request<P> ({ url, params, method = 'GET', errorCallback, successCallback, forceMock }: {
     url: string
@@ -110,7 +114,7 @@ class Fetch {
     //
     // Http Request
     //
-    const response: HttpResponse<P> = await fetch(`/api${link}`, {
+    const response: Response = await fetch(`/api${link}`, {
       method,
       headers: this.headers,
       body,
