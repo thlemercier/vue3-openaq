@@ -18,6 +18,7 @@ class Fetch {
    */
 
   constructor () {
+    console.log('process.env.VUE_APP_ENDPOINT', process.env.VUE_APP_ENDPOINT)
     if (typeof process.env.VUE_APP_MOCK_ENABLED === 'string') {
       this.useMock = ['yes', 'true', '1'].includes(process.env.VUE_APP_MOCK_ENABLED)
     } else {
@@ -98,7 +99,7 @@ class Fetch {
     //
     // Http Request builder
     //
-    let link = this.endpoint + url
+    let link = this.endpoint?.length ? this.endpoint + url : `/api${url}`
     let body
 
     if (params) {
@@ -110,12 +111,12 @@ class Fetch {
       }
     }
 
-    console.log(`[Req][${method}][%s] %o`, `/api${link}`, params)
+    console.log(`[Req][${method}][%s] %o`, link, params)
 
     //
     // Http Request
     //
-    const response: Response = await fetch(`/api${link}`, {
+    const response: Response = await fetch(link, {
       method,
       headers: this.headers,
       body,
