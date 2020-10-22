@@ -98,7 +98,7 @@ class Fetch {
     //
     // Http Request builder
     //
-    let link = url
+    let link = this.endpoint + url
     let body
 
     if (params) {
