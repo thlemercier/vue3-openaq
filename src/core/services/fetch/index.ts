@@ -9,7 +9,7 @@ class Fetch {
   }
 
   useMock = false
-  endpoint = process.env.VUE_APP_ENDPOINT
+  endpoint = `https://cors-anywhere.herokuapp.com/${process.env.VUE_APP_ENDPOINT}`
 
   /*
    * ------------------------------------
