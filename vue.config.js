@@ -11,6 +11,7 @@ console.log('--               Proxy : %s', process.env.PROXY)
 console.log('--------------------------------------------------------')
 
 module.exports = {
+  publicPath: '/vue3-openaq/',
   css: {
     sourceMap: true,
     loaderOptions: {
