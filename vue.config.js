@@ -9,6 +9,9 @@ console.log('--               Pharmmap version %s', version)
 console.log('--------------------------------------------------------')
 console.log('--               Proxy : %s', process.env.PROXY)
 console.log('--------------------------------------------------------')
+console.log('--------------------------------------------------------')
+console.log('--               Endpoint : %s', process.env.ENDPOINT)
+console.log('--------------------------------------------------------')
 
 module.exports = {
   publicPath: '/vue3-openaq/',
