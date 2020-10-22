@@ -10,7 +10,7 @@ console.log('--------------------------------------------------------')
 console.log('--               Proxy : %s', process.env.PROXY)
 console.log('--------------------------------------------------------')
 console.log('--------------------------------------------------------')
-console.log('--               Endpoint : %s', process.env.ENDPOINT)
+console.log('--               Endpoint : %s', process.env.VUE_APP_ENDPOINT)
 console.log('--------------------------------------------------------')
 
 module.exports = {

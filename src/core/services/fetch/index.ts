@@ -9,7 +9,7 @@ class Fetch {
   }
 
   useMock = false
-  endpoint = process.env.ENDPOINT
+  endpoint = process.env.VUE_APP_ENDPOINT
 
   /*
    * ------------------------------------
