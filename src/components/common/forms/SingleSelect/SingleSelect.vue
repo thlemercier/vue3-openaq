@@ -34,8 +34,6 @@ export default defineComponent({
 
     onMounted(() => {
       selectedValue.value = props.getValue(props.value)
-      console.log('selectedValue', selectedValue.value)
-      console.log('options', props.options)
     })
 
     return {
