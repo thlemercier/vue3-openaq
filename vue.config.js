@@ -14,7 +14,7 @@ console.log('--               Endpoint : %s', process.env.VUE_APP_ENDPOINT)
 console.log('--------------------------------------------------------')
 
 module.exports = {
-  publicPath: '/vue3-openaq/',
+  publicPath: process.env.NODE_ENV === 'production' ? '/vue3-openaq/' : '/',
   outputDir: 'docs',
   css: {
     sourceMap: true,

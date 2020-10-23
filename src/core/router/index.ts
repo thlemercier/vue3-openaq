@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
+import { createRouter, createWebHashHistory, createWebHistory, RouteRecordRaw } from 'vue-router'
 import RouterView2 from './RouterView2.vue'
 import { supportedLocales, i18nMiddleware, i18nInstance } from '../services/i18n'
 import { pages } from './pages'
@@ -29,7 +29,7 @@ const routes: RouteRecordRaw[] = [
 ]
 
 const router = createRouter({
-  history: createWebHistory('/vue3-openaq/'),
+  history: process.env.NODE_ENV === 'production' ? createWebHashHistory('/vue3-openaq/') : createWebHistory(),
   routes,
 })
 
