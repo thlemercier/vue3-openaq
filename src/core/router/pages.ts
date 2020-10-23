@@ -8,11 +8,17 @@ export const pages: RouteRecordRaw[] = [
     component: () => import(/* webpackChunkName: "home" */ '@/views/Home/Home.vue'),
   },
   {
+    path: 'home3',
+    name: 'Home3',
+    component: () => import(/* webpackChunkName: "home" */ '@/views/Home/Home.vue'),
+  },
+  {
     path: '',
     redirect: `/${i18nInstance.global.locale.value}/home`,
   },
   {
     path: '/:catchAll(.*)*',
+    name: '404-b',
     redirect: `/${i18nInstance.global.locale.value}/home`,
   },
 ]

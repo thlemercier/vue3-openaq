@@ -9,6 +9,7 @@ class Fetch {
   }
 
   useMock = false
+  endpoint = process.env.VUE_APP_ENDPOINT
 
   /*
    * ------------------------------------
@@ -22,7 +23,6 @@ class Fetch {
     } else {
       this.useMock = Boolean(process.env.VUE_APP_MOCK_ENABLED)
     }
-    console.log('process.env.VUE_APP_MOCK_ENABLED', this.useMock)
   }
 
   setHeaders (headers: Record<string, string>) {
@@ -97,7 +97,7 @@ class Fetch {
     //
     // Http Request builder
     //
-    let link = url
+    let link = this.endpoint?.length ? this.endpoint + url : `/api${url}`
     let body
 
     if (params) {
@@ -109,12 +109,12 @@ class Fetch {
       }
     }
 
-    console.log(`[Req][${method}][%s] %o`, `/api${link}`, params)
+    console.log(`[Req][${method}][%s] %o`, link, params)
 
     //
     // Http Request
     //
-    const response: Response = await fetch(`/api${link}`, {
+    const response: Response = await fetch(link, {
       method,
       headers: this.headers,
       body,

@@ -21,4 +21,5 @@ export default defineComponent({
       <slot />
     </main>
   </section>
+  <span id="app-version">$$version_number$$</span>
 </template>

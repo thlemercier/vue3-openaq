@@ -9,8 +9,14 @@ console.log('--               Pharmmap version %s', version)
 console.log('--------------------------------------------------------')
 console.log('--               Proxy : %s', process.env.PROXY)
 console.log('--------------------------------------------------------')
+console.log('--------------------------------------------------------')
+console.log('--               Endpoint : %s', process.env.VUE_APP_ENDPOINT)
+console.log('--------------------------------------------------------')
 
 module.exports = {
+
+  publicPath: process.env.NODE_ENV === 'production' ? '/vue3-openaq/' : '/',
+  outputDir: 'docs',
   css: {
     sourceMap: true,
     loaderOptions: {
@@ -23,6 +29,12 @@ module.exports = {
     },
   },
   chainWebpack: (config) => {
+    config.plugin('html')
+      .tap(args => ([{
+        title: 'OpenAQ - Vue 3 poc',
+        templateParameters: args[0].templateParameters,
+        template: args[0].template,
+      }]))
     config.module
       .rule('vue')
       .use('string-replace-loader')
