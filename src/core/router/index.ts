@@ -1,5 +1,5 @@
-import { createRouter, createWebHashHistory, createWebHistory, RouteRecordRaw } from 'vue-router'
-import RouterView2 from './RouterView2.vue'
+import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
+import RouterViewWrapper from './RouterViewWrapper.vue'
 import { supportedLocales, i18nMiddleware, i18nInstance } from '../services/i18n'
 import { pages } from './pages'
 
@@ -14,7 +14,7 @@ const getLocaleRegex = () => {
 const routes: RouteRecordRaw[] = [
   {
     path: `/:locale${getLocaleRegex()}`,
-    component: RouterView2,
+    component: RouterViewWrapper,
     beforeEnter: i18nMiddleware,
     children: pages,
   },
@@ -24,12 +24,13 @@ const routes: RouteRecordRaw[] = [
   },
   {
     path: '/:catchAll(.*)*',
+    name: '404',
     redirect: `/${i18nInstance.global.locale.value}/home`,
   },
 ]
 
 const router = createRouter({
-  history: process.env.NODE_ENV === 'production' ? createWebHashHistory('/vue3-openaq/') : createWebHistory(),
+  history: process.env.NODE_ENV === 'production' ? createWebHashHistory('/vue3-openaq/') : createWebHashHistory(),
   routes,
 })
 

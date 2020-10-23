@@ -9,7 +9,7 @@ class Fetch {
   }
 
   useMock = false
-  endpoint = `https://cors-anywhere.herokuapp.com/${process.env.VUE_APP_ENDPOINT}`
+  endpoint = process.env.VUE_APP_ENDPOINT
 
   /*
    * ------------------------------------
@@ -18,13 +18,11 @@ class Fetch {
    */
 
   constructor () {
-    console.log('process.env.VUE_APP_ENDPOINT', process.env.VUE_APP_ENDPOINT)
     if (typeof process.env.VUE_APP_MOCK_ENABLED === 'string') {
       this.useMock = ['yes', 'true', '1'].includes(process.env.VUE_APP_MOCK_ENABLED)
     } else {
       this.useMock = Boolean(process.env.VUE_APP_MOCK_ENABLED)
     }
-    console.log('process.env.VUE_APP_MOCK_ENABLED', this.useMock)
   }
 
   setHeaders (headers: Record<string, string>) {

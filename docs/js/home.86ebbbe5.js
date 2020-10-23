@@ -1,2 +1,0 @@
-(window["webpackJsonp"]=window["webpackJsonp"]||[]).push([["home"],{"1c62":function(e,n,t){"use strict";t.r(n);var c=t("7a23");function o(e,n,t,o,r,s){return Object(c["u"])(),Object(c["f"])("div",null,Object(c["C"])(e.msg),1)}var r=Object(c["j"])({name:"Home",props:{msg:{type:String,default:"No Message"}}});r.render=o;n["default"]=r}}]);
-//# sourceMappingURL=home.86ebbbe5.js.map

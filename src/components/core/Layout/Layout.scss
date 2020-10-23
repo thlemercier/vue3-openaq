@@ -20,3 +20,14 @@
     overflow: auto;
   }
 }
+
+#app-version {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  padding: 2px 4px;
+  display: block;
+  background: #222;
+  color: #aaa;
+  border-top-left-radius: 3px;
+}
