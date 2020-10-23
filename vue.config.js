@@ -15,6 +15,7 @@ console.log('--------------------------------------------------------')
 
 module.exports = {
   publicPath: '/vue3-openaq/',
+  outputDir: 'docs',
   css: {
     sourceMap: true,
     loaderOptions: {
