@@ -1,4 +1,4 @@
-import { PropType, Ref } from 'vue'
+import { ComputedRef, PropType, Ref } from 'vue'
 
 export interface InputProps {
   value: string
@@ -39,14 +39,14 @@ export const inputProps = {
   isDisabled: {
     type: Function as PropType<(option: unknown, index?: number) => boolean>,
   },
-  applyOnChange: {
-    type: Boolean,
-  },
 }
 
 export interface TemplateProps {
-  selectedValue: Ref<string | undefined>
   setSelectedValue: (value: string) => void
+  isDropdownOpen: Ref<boolean>
+  open: () => void
+  close: () => void
+  defaultOption: ComputedRef<string>
 }
 
 export const EmittedEvents = {

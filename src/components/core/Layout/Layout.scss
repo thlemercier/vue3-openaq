@@ -8,8 +8,8 @@
   #layout-header {
     @extend .p_3_6;
 
-    background: #fff;
-    box-shadow: lighten($disabled-dark, 40%) $zero $xxs $xs, lighten($lighter-dark, 40%) $zero $xxs $xs;
+    background: $secondary-black;
+    border-bottom: 2px solid $primary-white;
     height: 100%;
     width: 100%;
   }
@@ -22,12 +22,13 @@
 }
 
 #app-version {
+  @extend .p_3_6;
+
   position: fixed;
   bottom: 0;
   right: 0;
-  padding: 2px 4px;
   display: block;
-  background: #222;
-  color: #aaa;
-  border-top-left-radius: 3px;
+  background: $primary-black;
+  color: $primary-white;
+  border-top-left-radius: $xs;
 }

@@ -28,7 +28,7 @@ module.exports = {
     'no-nested-ternary': "error",
     'default-case': "error",
     'switch-colon-spacing': "error",
-    'newline-per-chained-call': ["error", { "ignoreChainWithDepth": 1 }],
+    'newline-per-chained-call': ["error", { "ignoreChainWithDepth": 3 }],
     'arrow-body-style': ["error", "as-needed"],
     'consistent-return': "error",
     'no-shadow': 'error',

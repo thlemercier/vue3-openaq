@@ -15,16 +15,17 @@ html,
 body {
   box-sizing: border-box;
   -webkit-text-size-adjust: 100%;
-  -webkit-tap-highlight-color: rgba($primary-dark, 0);
+  -webkit-tap-highlight-color: rgba($primary-black, 0);
   height: 100%;
   width: 100%;
   font-size: $f_size;
   line-height: $f_line_height;
   text-align: left;
-  color: rgb(32, 30, 30);
+  color: $primary-black;
   font-family: Verdana, sans-serif;
   padding: 0;
   margin: 0;
+  background: $secondary-white;
 }
 
 *,
@@ -81,16 +82,26 @@ textarea {
 }
 
 button {
-  @extend .p_3_6;
+  // @extend .p_3_6;
 
-  background: none;
-  font-size: 1rem;
-  font-family: Verdana, sans-serif;
-  border-radius: $s;
-  border: $xs solid transparent;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  display: flex;
-  align-items: center;
-  position: relative;
+  // height: 35px;
+  // color: $primary-dark;
+  // background: none;
+  // font-size: 1rem;
+  // font-family: Verdana, sans-serif;
+  // border-radius: $s;
+  // border: $xs solid $primary-blue-op-2;
+  // white-space: nowrap;
+  // text-overflow: ellipsis;
+  // display: flex;
+  // align-items: center;
+  // position: relative;
+
+  // &:focus {
+  //   border-color: $primary-blue-op-1;
+  // }
+
+  // &:hover:not(:focus) {
+  //   border-color: $primary-blue-op-1;
+  // }
 }

@@ -26,7 +26,7 @@
       width: 30px;
       height: 30px;
       border-radius: 50%;
-      background: rgba($lighter-dark, 0.12);
+      background: rgba($secondary-black, 0.12);
       transform: scale3d(0, 0, 1);
       transition: transform 0.22s cubic-bezier(0, 0, 0.2, 1) 0ms;
       opacity: 1;
@@ -50,7 +50,7 @@
 
   .radio-button_label { // Label Container
     position: relative;
-    color: $lighter-dark;
+    color: $secondary-black;
 
     label { // The label
       display: block;
@@ -73,12 +73,12 @@
   &.disabled {
     .radio-button_label {
       // When disabled we color the label with a light grey
-      color: lighten($lighter-dark, 19%);
+      color: lighten($secondary-black, 19%);
     }
 
     .radio-button_inner-input::after {
       // When disabled we replace the blue border with a light grey border
-      border-color: lighten($lighter-dark, 35%);
+      border-color: lighten($secondary-black, 35%);
     }
   }
 
@@ -92,7 +92,7 @@
   &:hover:not(.disabled) {
     .radio-button_label {
       // When hovering the container we color the label with a darker color
-      color: $darker-dark;
+      color: $primary-black;
     }
   }
 }

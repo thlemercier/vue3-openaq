@@ -1,69 +1,77 @@
 <script lang="ts">
-import { ConfigDropdown, SingleSelect } from '@/components/common'
+import { SingleSelectV2 } from '@/components/common'
 import { getOr } from '@/core/services/helpers'
-import { changeLanguage, supportedLocales } from '@/core/services/i18n'
-import { computed, defineComponent } from 'vue'
+import { changeLanguage, SupportedLocale, supportedLocales } from '@/core/services/i18n'
+import { computed, defineComponent, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRoute, useRouter } from 'vue-router'
 
+const noLanguageOption = { labelKey: 'no-lang', base: 'en', code: 'EN' }
+
 export default defineComponent({
   name: 'LanguageDropdown',
-  components: { ConfigDropdown, SingleSelect },
+  components: { SingleSelectV2 },
   async setup () {
     const i18n = useI18n()
     const route = useRoute()
     const router = useRouter()
 
-    const selectedLanguage = computed(() => {
-      const lang = supportedLocales.find(({ code }) => code === i18n.locale.value)
+    const defaultLanguage = computed(() => supportedLocales.find(({ code }) => code === i18n.locale.value) || noLanguageOption)
 
-      return lang || { labelKey: 'no-lang', base: 'en' }
-    })
+    const selectedLanguage = ref(defaultLanguage.value)
 
-    const setLanguage = async (value: string) => {
-      const language = supportedLocales.find(({ code }) => code === value)
+    const apply = () => {
+      const language = supportedLocales.find(({ code }) => code === selectedLanguage.value.code)
 
       if (language) {
         changeLanguage(language, route, router)
       }
     }
 
+    const cancel = () => {
+      selectedLanguage.value = defaultLanguage.value
+    }
+
+    const setSelectedLanguage = (option: SupportedLocale) => {
+      selectedLanguage.value = option
+      apply()
+    }
+
     return {
-      setLanguage,
+      setSelectedLanguage,
       selectedLanguage,
       supportedLocales,
       getOr,
+      defaultLanguage,
+      apply,
+      cancel,
     }
   },
 })
 </script>
 
 <template>
-  <ConfigDropdown aria-label="Language">
-    <template #label>
+  <SingleSelectV2
+    name="country"
+    :value='selectedLanguage'
+    :options="supportedLocales"
+    :getValue="(language, index) => getOr(language.code, `val-${index}`)"
+    :getLabel="(language) => `${getOr($t(language.labelKey), 'n/a')} (${getOr(language.code, 'n/a')})`"
+    @change="setSelectedLanguage"
+  >
+    <template v-slot:trigger="{ value }">
       <svg
-        width="32"
-        height="32"
-        viewBox="0 0 32 32"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M10.219 16.844c-0.031 0.109-0.797-0.25-1-0.328-0.203-0.094-1.125-0.609-1.359-0.766s-1.125-0.891-1.234-0.938v0c-0.562 0.859-1.281 1.875-2.094 2.828-0.281 0.328-1.125 1.391-1.641 1.719-0.078 0.047-0.531 0.094-0.594 0.063 0.25-0.187 0.969-1.078 1.281-1.437 0.391-0.453 2.25-3.047 2.562-3.641 0.328-0.594 1.312-2.562 1.359-2.75-0.156-0.016-1.391 0.406-1.719 0.516-0.313 0.094-1.172 0.297-1.234 0.344-0.063 0.063-0.016 0.25-0.047 0.313s-0.313 0.203-0.484 0.234c-0.156 0.047-0.516 0.063-0.734 0-0.203-0.047-0.391-0.25-0.438-0.328 0 0-0.063-0.094-0.078-0.359 0.187-0.063 0.5-0.078 0.844-0.172s1.188-0.344 1.641-0.5 1.328-0.484 1.594-0.547c0.281-0.047 0.984-0.516 1.359-0.641s0.641-0.281 0.656-0.203 0 0.422-0.016 0.516c-0.016 0.078-0.766 1.547-0.875 1.781-0.063 0.125-0.5 0.953-1.203 2.047 0.25 0.109 0.781 0.328 1 0.438 0.266 0.125 2.125 0.906 2.219 0.938s0.266 0.75 0.234 0.875zM7.016 9.25c0.047 0.266-0.031 0.375-0.063 0.438-0.156 0.297-0.547 0.5-0.781 0.594s-0.625 0.187-0.938 0.187c-0.141-0.016-0.422-0.063-0.766-0.406-0.187-0.203-0.328-0.75-0.266-0.688s0.516 0.125 0.719 0.078 0.688-0.187 0.906-0.25c0.234-0.078 0.703-0.203 0.859-0.219 0.156 0 0.281 0.063 0.328 0.266zM17.922 11.266l0.984 3.547-2.172-0.656zM0.609 23.766l10.844-3.625v-16.125l-10.844 3.641v16.109zM20 18.813l1.594 0.484-2.828-10.266-1.563-0.484-3.375 8.375 1.594 0.484 0.703-1.719 3.297 1.016zM12.141 3.781l8.953 2.875v-5.938zM17 24.453l2.469 0.203-0.844 2.5-0.625-1.031c-1.266 0.812-2.828 1.437-4.312 1.687-0.453 0.094-0.969 0.187-1.422 0.187h-1.313c-1.656 0-4.672-0.984-5.984-1.937-0.094-0.078-0.125-0.141-0.125-0.25 0-0.172 0.125-0.297 0.281-0.297 0.141 0 0.875 0.453 1.078 0.547 1.406 0.703 3.375 1.344 4.953 1.344 1.953 0 3.281-0.25 5.063-1.016 0.516-0.234 0.969-0.531 1.453-0.797zM24 7.594v16.859c-12.078-3.844-12.094-3.844-12.094-3.844-0.25 0.109-11.453 3.891-11.609 3.891-0.125 0-0.234-0.078-0.281-0.203 0-0.016-0.016-0.031-0.016-0.047v-16.844c0.016-0.047 0.031-0.125 0.063-0.156 0.094-0.109 0.219-0.141 0.313-0.172 0.047-0.016 1-0.328 2.328-0.781v-6l8.719 3.094c0.109-0.031 9.828-3.391 9.969-3.391 0.172 0 0.313 0.125 0.313 0.328v6.531z"
-        />
+          width="22"
+          height="22"
+          viewBox="0 0 32 32"
+          fill="rgb(54, 71, 128)"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M10.219 16.844c-0.031 0.109-0.797-0.25-1-0.328-0.203-0.094-1.125-0.609-1.359-0.766s-1.125-0.891-1.234-0.938v0c-0.562 0.859-1.281 1.875-2.094 2.828-0.281 0.328-1.125 1.391-1.641 1.719-0.078 0.047-0.531 0.094-0.594 0.063 0.25-0.187 0.969-1.078 1.281-1.437 0.391-0.453 2.25-3.047 2.562-3.641 0.328-0.594 1.312-2.562 1.359-2.75-0.156-0.016-1.391 0.406-1.719 0.516-0.313 0.094-1.172 0.297-1.234 0.344-0.063 0.063-0.016 0.25-0.047 0.313s-0.313 0.203-0.484 0.234c-0.156 0.047-0.516 0.063-0.734 0-0.203-0.047-0.391-0.25-0.438-0.328 0 0-0.063-0.094-0.078-0.359 0.187-0.063 0.5-0.078 0.844-0.172s1.188-0.344 1.641-0.5 1.328-0.484 1.594-0.547c0.281-0.047 0.984-0.516 1.359-0.641s0.641-0.281 0.656-0.203 0 0.422-0.016 0.516c-0.016 0.078-0.766 1.547-0.875 1.781-0.063 0.125-0.5 0.953-1.203 2.047 0.25 0.109 0.781 0.328 1 0.438 0.266 0.125 2.125 0.906 2.219 0.938s0.266 0.75 0.234 0.875zM7.016 9.25c0.047 0.266-0.031 0.375-0.063 0.438-0.156 0.297-0.547 0.5-0.781 0.594s-0.625 0.187-0.938 0.187c-0.141-0.016-0.422-0.063-0.766-0.406-0.187-0.203-0.328-0.75-0.266-0.688s0.516 0.125 0.719 0.078 0.688-0.187 0.906-0.25c0.234-0.078 0.703-0.203 0.859-0.219 0.156 0 0.281 0.063 0.328 0.266zM17.922 11.266l0.984 3.547-2.172-0.656zM0.609 23.766l10.844-3.625v-16.125l-10.844 3.641v16.109zM20 18.813l1.594 0.484-2.828-10.266-1.563-0.484-3.375 8.375 1.594 0.484 0.703-1.719 3.297 1.016zM12.141 3.781l8.953 2.875v-5.938zM17 24.453l2.469 0.203-0.844 2.5-0.625-1.031c-1.266 0.812-2.828 1.437-4.312 1.687-0.453 0.094-0.969 0.187-1.422 0.187h-1.313c-1.656 0-4.672-0.984-5.984-1.937-0.094-0.078-0.125-0.141-0.125-0.25 0-0.172 0.125-0.297 0.281-0.297 0.141 0 0.875 0.453 1.078 0.547 1.406 0.703 3.375 1.344 4.953 1.344 1.953 0 3.281-0.25 5.063-1.016 0.516-0.234 0.969-0.531 1.453-0.797zM24 7.594v16.859c-12.078-3.844-12.094-3.844-12.094-3.844-0.25 0.109-11.453 3.891-11.609 3.891-0.125 0-0.234-0.078-0.281-0.203 0-0.016-0.016-0.031-0.016-0.047v-16.844c0.016-0.047 0.031-0.125 0.063-0.156 0.094-0.109 0.219-0.141 0.313-0.172 0.047-0.016 1-0.328 2.328-0.781v-6l8.719 3.094c0.109-0.031 9.828-3.391 9.969-3.391 0.172 0 0.313 0.125 0.313 0.328v6.531z"
+          />
       </svg>
+      {{ value }}
     </template>
-    <template #value>
-      {{ $t(selectedLanguage.labelKey) }}
-    </template>
-    <SingleSelect
-      :value="selectedLanguage"
-      @change="setLanguage"
-      name="country"
-      :options="supportedLocales"
-      :getValue="(language, index) => getOr(language.code, `val-${index}`)"
-      :getLabel="(language) => `${getOr($t(language.labelKey), 'n/a')} (${getOr(language.code, 'n/a')})`"
-      :applyOnChange="true"
-    />
-  </ConfigDropdown>
+  </SingleSelectV2>
 </template>

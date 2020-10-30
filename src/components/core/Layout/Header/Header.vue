@@ -15,12 +15,15 @@ export default defineComponent({
       open.value = newOpen
     }
 
+    const selectv2 = ref('bewrty')
+
     return {
       // isDesktop: computed(() => isDesktop.value),
       // isTablet: computed(() => isTablet.value),
       // isMobile: computed(() => isMobile.value),
       open,
       setOpen,
+      selectv2,
     }
   },
 })

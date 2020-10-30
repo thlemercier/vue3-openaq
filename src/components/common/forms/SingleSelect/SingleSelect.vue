@@ -1,6 +1,7 @@
 <script lang="ts">
-import { defineComponent, SetupContext, ref, onMounted } from 'vue'
+import { defineComponent, SetupContext, ref, onMounted, computed } from 'vue'
 import { RadioButton } from '@/components/common'
+import Popover from '../../Popover/Popover.vue'
 import {
   InputProps,
   inputProps,
@@ -20,53 +21,74 @@ export default defineComponent({
   props: inputProps,
   emits: [EmittedEvents.change],
   setup (props: Readonly<InputProps>, context: SetupContext): TemplateProps {
-    // Local Selected Value
-    const selectedValue = ref<string>('')
+    const defaultOption = computed(() => props.value)
 
-    const setSelectedValue = (value: string) => {
-      selectedValue.value = value
+    const isDropdownOpen = ref(false)
 
-      // If applyOnChange we emit the new value to the parent straight away
-      if (props.applyOnChange) {
-        context.emit('change', value)
-      }
+    const open = () => {
+      isDropdownOpen.value = true
     }
 
-    onMounted(() => {
-      selectedValue.value = props.getValue(props.value)
-    })
+    const close = () => {
+      isDropdownOpen.value = false
+    }
+
+    const setSelectedValue = (value: string) => {
+      context.emit('change', value)
+    }
 
     return {
-      selectedValue,
       setSelectedValue,
+      isDropdownOpen,
+      open,
+      close,
+      defaultOption,
     }
   },
   components: {
     RadioButton,
+    Popover,
   },
 })
 </script>
 
 <style lang="scss" scopped src="./SingleSelect.scss"></style>
 <template>
-  <div class="single-select_container flexColumn p_5 p_b_0">
-      <div class="single-select_search"></div>
-      <ul class="single-select_options flexColumn">
-        <li v-for="(option, index) in options" :key="getValue(option)" class="single-select_options_option">
+  <Popover
+      on="click"
+      :open="isDropdownOpen"
+      @onClose="close()"
+      @onOpen="open"
+      anchor="bottom left"
+      :offset="5"
+    >
+      <template #trigger>
+        <slot name="trigger" :value="getLabel(defaultOption)" />
+      </template>
+      <div class="single-select_container flexColumn p_5 p_b_0">
+        <div class="single-select_search">search</div>
+        <ul class="single-select_options flexColumn">
+          <li v-for="(option, index) in options" :key="getValue(option)" class="single-select_options_option">
           <RadioButton
             :name="name"
             :id="getValue(option, index)"
             :inputValue="getValue(option, index)"
             :label="getLabel(option, index)"
             :disabled="isDisabled && isDisabled(option)"
-            :value="selectedValue"
+            :value="getValue(value)"
             @change="setSelectedValue"
           />
-        </li>
-      </ul>
-      <div class="single-select_actions flexRow sticky-bottom">
-        <button>Cancel</button>
-        <button>Apply</button>
+          </li>
+        </ul>
+        <section class="single-select_actions flexRow">
+          <button>Cancel</button>
+          <button>Apply</button>
+        </section>
       </div>
-    </div>
+      <!-- <div v-if="!applyOnChange" class="config-dropdown_actions flexRow sticky-bottom">
+        <button @click="close('cancel')">Cancel</button>
+        <button @click="close('apply')" :disabled="applyDisabled">Apply</button>
+      </div> -->
+    </Popover>
+
 </template>

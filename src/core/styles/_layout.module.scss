@@ -7,6 +7,10 @@
   display: flex;
 }
 
+.alignEnd {
+  align-items: flex-end;
+}
+
 .sticky-bottom {
   position: sticky;
   bottom: 0;

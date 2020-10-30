@@ -1,0 +1,51 @@
+.btn-with-tooltip {
+  padding: 8px 12px;
+  border: none;
+  font-size: 1rem;
+  font-family: Verdana, sans-serif;
+  border-radius: $s;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  display: flex;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+  background: $primary-white;
+  color: $secondary-black;
+
+  &:focus,
+  &:hover {
+    color: $primary-black;
+    background: $secondary-white;
+  }
+
+  &.submit {
+    background: $primary-blue;
+    color: $primary-white;
+
+    &:focus {
+      background: $secondary-blue;
+      color: $primary-blue;
+    }
+
+    &:hover:not(:focus) {
+      background: $secondary-blue;
+      color: $primary-blue;
+    }
+  }
+
+  &.cancel {
+    background: $primary-red;
+    color: $secondary-white;
+
+    &:focus {
+      background: $secondary-red;
+      color: $primary-red;
+    }
+
+    &:hover:not(:focus) {
+      background: $secondary-red;
+      color: $primary-red;
+    }
+  }
+}

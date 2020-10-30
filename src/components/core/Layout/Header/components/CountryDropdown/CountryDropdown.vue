@@ -1,5 +1,5 @@
 <script lang="ts">
-import { ConfigDropdown, SingleSelect } from '@/components/common'
+import { ConfigDropdownTrigger, SingleSelect } from '@/components/common'
 import { TemplateProps } from './CountryDropdown.props'
 import { getOr, hasValue } from '@/core/services/helpers'
 import { AppStore } from '@/core/store'
@@ -12,7 +12,7 @@ const getCountryCode = (country: Country | undefined) => getOr(country?.code, ' 
 
 export default defineComponent({
   name: 'CountryDropdown',
-  components: { ConfigDropdown, SingleSelect },
+  components: { ConfigDropdownTrigger, SingleSelect },
   setup (): TemplateProps {
     const appStore = useStore<AppStore>()
     const countries = computed<Country[]>(() => appStore.state.app.countries)
@@ -46,7 +46,7 @@ export default defineComponent({
 </script>
 
 <template>
-  <ConfigDropdown aria-label="Language">
+  <ConfigDropdownTrigger aria-label="Language">
     <template #label>
       <svg
         width="32"
@@ -73,5 +73,5 @@ export default defineComponent({
       :isDisabled="(country) => !hasValue(country.name)"
       :applyOnChange="true"
     />
-  </ConfigDropdown>
+  </ConfigDropdownTrigger>
 </template>
