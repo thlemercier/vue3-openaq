@@ -83,46 +83,48 @@ export default defineComponent({
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scopped src="./SingleSelectV2.scss"></style>
 <template>
-  <Popover
-      on="click"
-      :open="isOpen"
-      @onClose="cancel"
-      @onOpen="open"
-      anchor="bottom left"
-      :offset="5"
-    >
-      <template #trigger>
-        <ButtonWithTooltip
-            :aria-expanded="isOpen"
-            :ariaLabel="getLabel(defaultOption)"
-          >
-            <slot name="trigger" :value="getLabel(defaultOption)">
-              {{ getLabel(defaultOption) }}
-            </slot>
-          </ButtonWithTooltip>
-      </template>
-      <div class="single-select_container flexColumn p_5 p_b_0">
-        <div class="single-select_search m_b_5">
-          <input type="text" v-model="filterValue" placeholder="Search..." />
+  <div>
+    <Popover
+        on="click"
+        :open="isOpen"
+        @onClose="cancel"
+        @onOpen="open"
+        anchor="bottom left"
+        :offset="5"
+      >
+        <template #trigger>
+          <ButtonWithTooltip
+              :aria-expanded="isOpen"
+              :ariaLabel="getLabel(defaultOption)"
+            >
+              <slot name="trigger" :value="getLabel(defaultOption)">
+                {{ getLabel(defaultOption) }}
+              </slot>
+            </ButtonWithTooltip>
+        </template>
+        <div class="single-select_container flexColumn p_5 p_b_0">
+          <div class="single-select_search m_b_5">
+            <input type="text" v-model="filterValue" placeholder="Search..." />
+          </div>
+          <ul class="single-select_options flexColumn m_b_5 m_t_5">
+            <span v-if="!filteredOptions.length">No Results</span>
+            <li v-for="(option, index) in filteredOptions" :key="getValue(option)" class="single-select_options_option">
+              <RadioButton
+                :name="name"
+                :id="getValue(option, index)"
+                :inputValue="getValue(option, index)"
+                :label="getLabel(option, index)"
+                :value="getValue(selectedOption)"
+                @change="setSelectedOption"
+                :disabled="isDisabled && isDisabled(option)"
+              />
+            </li>
+          </ul>
+          <section class="single-select_actions flexRow alignEnd">
+            <ButtonWithTooltip @click="apply" ariaLabel="Apply" type='submit' class="m_l_auto m_r_5">Apply</ButtonWithTooltip>
+            <ButtonWithTooltip @click="cancel" ariaLabel="Cancel" type='cancel'>Cancel</ButtonWithTooltip>
+          </section>
         </div>
-        <ul class="single-select_options flexColumn m_b_5 m_t_5">
-          <span v-if="!filteredOptions.length">No Results</span>
-          <li v-for="(option, index) in filteredOptions" :key="getValue(option)" class="single-select_options_option">
-            <RadioButton
-              :name="name"
-              :id="getValue(option, index)"
-              :inputValue="getValue(option, index)"
-              :label="getLabel(option, index)"
-              :value="getValue(selectedOption)"
-              @change="setSelectedOption"
-              :disabled="isDisabled && isDisabled(option)"
-            />
-          </li>
-        </ul>
-        <section class="single-select_actions flexRow alignEnd">
-          <ButtonWithTooltip @click="apply" ariaLabel="Apply" type='submit' class="m_l_auto m_r_5">Apply</ButtonWithTooltip>
-          <ButtonWithTooltip @click="cancel" ariaLabel="Cancel" type='cancel'>Cancel</ButtonWithTooltip>
-        </section>
-      </div>
     </Popover>
+  </div>
 </template>

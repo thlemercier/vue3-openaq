@@ -1,5 +1,5 @@
 <script lang="ts">
-import { computed, defineComponent, onUpdated, ref, SetupContext } from 'vue'
+import { computed, defineComponent, nextTick, onMounted, onUpdated, ref, SetupContext } from 'vue'
 import {
   InputProps,
   inputProps,
@@ -41,15 +41,19 @@ export default defineComponent({
     }
 
     const onFocus = () => {
-      if (radioRef.value) {
-        radioRef.value.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' })
-      }
+      nextTick(() => {
+        if (radioRef.value && props.value === props.inputValue) {
+          radioRef.value.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' })
+        }
+      })
     }
 
-    onUpdated(() => {
-      if (radioRef.value && props.value === props.inputValue) {
-        radioRef.value.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' })
-      }
+    onMounted(() => {
+      nextTick(() => {
+        if (radioRef.value && props.value === props.inputValue) {
+          radioRef.value.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' })
+        }
+      })
     })
 
     return {

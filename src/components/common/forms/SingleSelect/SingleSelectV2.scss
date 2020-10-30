@@ -1,6 +1,10 @@
 .single-select_container {
   max-height: 400px;
-  overflow: auto;
+  overflow: hidden;
+
+  .single-select_options {
+    overflow: auto;
+  }
 
   .single-select_search {
     width: 100%;

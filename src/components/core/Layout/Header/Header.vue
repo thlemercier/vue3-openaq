@@ -39,8 +39,8 @@ export default defineComponent({
     <div
       id="header_dropdowns"
     >
-      <CountryDropdown />
-      <LanguageDropdown />
+      <CountryDropdown class="m_l_5" />
+      <LanguageDropdown class="m_l_auto" />
     </div>
   </section>
 </template>
